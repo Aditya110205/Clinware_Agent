@@ -1,0 +1,3 @@
+com\clinware\agent\Config.class
+com\clinware\agent\MCPClient.class
+com\clinware\agent\InteractiveClinwareAgent.class
