@@ -1,0 +1,62 @@
+# ==============================================================================
+# Docker Compose Configuration
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  clinware-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: clinware-market-intelligence
+    
+    ports:
+      - "80:80"      # Frontend + Backend API proxy
+      # - "8080:8080"  # Commented out - not needed, use Nginx proxy instead
+    
+    environment:
+      # Java Options
+      - JAVA_OPTS=-Xms256m -Xmx512m
+      
+      # Application Properties (customize as needed)
+      - SPRING_PROFILES_ACTIVE=production
+      - SERVER_PORT=8080
+      
+      # Optional: Add your API keys here
+      # - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      # - MCP_SERVER_URL=${MCP_SERVER_URL}
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    # Resource limits (optional)
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    
+    # Volumes (optional - for logs)
+    volumes:
+      - ./logs:/var/log
+    
+    # Networks (optional)
+    networks:
+      - clinware-network
+
+networks:
+  clinware-network:
+    driver: bridge
