@@ -388,13 +388,7 @@ Uses Google Generative AI REST API:
 
 ---
 
-## 👨‍💻 Author
 
-**Your Name**
-- Email: your.email@example.com
-- GitHub: [@yourusername](https://github.com/yourusername)
-
----
 
 ## 📄 License
 
